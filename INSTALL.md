@@ -24,7 +24,7 @@ export SCRUMMY_TOKEN="<your-token>"
 export SCRUMMY_WORKSPACE="<slug>"                     # optional if the token reaches one workspace
 
 claude plugin marketplace add SAFE-AI-Global/scrummy-skill    # this repo
-claude plugin install scrummy@scrummy
+claude plugin install scrummy@scrummy-skill
 ```
 
 Put the three exports in your shell profile so every session sees them. The plugin's `.mcp.json` reads them and registers the `scrummy` MCP server with the token in an `Authorization` header, so it never appears in a URL or a log.

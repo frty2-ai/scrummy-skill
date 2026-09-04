@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "scrummy",
+  "name": "scrummy-skill",
   "owner": {
     "name": "Scrummy"
   },
@@ -15,7 +15,12 @@
       "description": "Chief of staff for a Scrummy workspace: capture, sync, next, brief, review, plan, rebalance, risk, week, pipeline, campaign, client.",
       "version": "0.1.0",
       "category": "productivity",
-      "keywords": ["project-management", "plane", "scrummy", "agile"]
+      "keywords": [
+        "project-management",
+        "plane",
+        "scrummy",
+        "agile"
+      ]
     }
   ]
 }
