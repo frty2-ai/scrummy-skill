@@ -6,7 +6,7 @@
 
 ## Deciding
 
-Pull the principal's open work across the projects in play (`list_work_items` with assignees expanded; filter to them; if cycles exist, the current cycle first). Then rank by consequence, not by date or priority field alone:
+Pull the principal's open work across the projects in play (`list_work_items` with assignees expanded; filter to them; if cycles exist and the server exposes them, the current cycle first). Then rank by consequence, not by date or priority field alone:
 
 1. **Overdue with an external consequence** — a client, a regulator, a launch, a person waiting.
 2. **Blocking someone else** — an item with `blocking` relations to open work owned by others. Their idle time is your principal's fault.

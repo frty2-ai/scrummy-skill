@@ -18,7 +18,7 @@ Say what you see, in the principal's register. A retro is a judgment, not a list
 
 ## Closing a cycle
 
-If the project runs cycles: `list_cycles cycle_view=completed` for the one that ended, `get_cycle` for the counts. Carry-over is the number that matters; say it as a fraction and compare it to the last cycle if you can. Then `transfer_cycle_work_items` into the next cycle (create it on the same cadence if it does not exist), and comment on each carried item with why it slipped when the reason is known. Do not silently roll everything; if more than half the cycle is carrying over, the plan was wrong and the next cycle should be smaller. Say so.
+If the project runs cycles (and the server exposes cycle tools; if it does not, do the same review over the module window or a date range and say that is what you did): `list_cycles cycle_view=completed` for the one that ended, `get_cycle` for the counts. Carry-over is the number that matters; say it as a fraction and compare it to the last cycle if you can. Then `transfer_cycle_work_items` into the next cycle (create it on the same cadence if it does not exist), and comment on each carried item with why it slipped when the reason is known. Do not silently roll everything; if more than half the cycle is carrying over, the plan was wrong and the next cycle should be smaller. Say so.
 
 ## Hygiene
 

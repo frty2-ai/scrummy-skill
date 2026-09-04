@@ -2,7 +2,7 @@
   "mcpServers": {
     "scrummy": {
       "type": "http",
-      "url": "${SCRUMMY_URL:-https://scrum.beta.safeai.global}/mcp/?workspace=${SCRUMMY_WORKSPACE:-}",
+      "url": "${SCRUMMY_URL}/mcp/?workspace=${SCRUMMY_WORKSPACE:-}",
       "headers": {
         "Authorization": "Bearer ${SCRUMMY_TOKEN}"
       }

@@ -27,6 +27,7 @@ Scrummy is a Plane-backed workspace exposed over MCP. The connector may appear u
 - **Relations are permanent.** There is no delete for `add_work_item_relation`. Be sure before you wire a `blocked_by`.
 - **One cycle per item.** Adding an item to a cycle moves it out of any other. Plane refuses additions to a cycle whose end date has passed.
 - **Workspace pinning.** If the token reaches several workspaces and none is pinned, calls are refused until the MCP URL carries `?workspace=<slug>`. Say it once and move on.
+- **The tool surface varies by deployment.** Newer servers add tools; an older one will not have every tool named here. Trust the connector's actual tool list over this document, and treat an unknown-tool error as a fact about that server rather than something to retry.
 - **Rate limits** are per token per minute. Prefer `get_work_item_context` and `expand=` over bursts of single-field lookups.
 
 ---
@@ -67,7 +68,7 @@ Sub-items: `parent_id` on create or update makes a child. `get_work_item_context
 
 **Modules** — epics or feature groups with a window and a lead. `list_modules`, `get_module` (with completion counts), `create_module`, `update_module`, `delete_module`, `list_module_work_items`, `add_work_items_to_module`, `remove_work_item_from_module`. Status: `backlog | planned | in-progress | paused | completed | cancelled`. A module's window is the best source of default dates for new items inside it. For marketers a campaign is a module; for agencies a deliverable phase is a module.
 
-**Cycles** — time-boxed sprints or iterations. `list_cycles` with `cycle_view` of `all | current | upcoming | completed | draft | incomplete`, `get_cycle` (progress counts), `create_cycle`, `update_cycle`, `delete_cycle`, `list_cycle_work_items`, `add_work_items_to_cycle`, `remove_work_item_from_cycle`, `transfer_cycle_work_items` (rollover of unfinished work from an ended cycle into the next). If a project has cycles, "what's next" means "what's in the current cycle", and "week" means sprint close.
+**Cycles** — time-boxed sprints or iterations. **Availability varies by deployment:** older Scrummy servers do not expose the cycle tools at all. If a cycle call comes back as an unknown tool, say so once in a clause, fall back to modules and dates for the same job, and do not retry cycle tools for the rest of the session. `list_cycles` with `cycle_view` of `all | current | upcoming | completed | draft | incomplete`, `get_cycle` (progress counts), `create_cycle`, `update_cycle`, `delete_cycle`, `list_cycle_work_items`, `add_work_items_to_cycle`, `remove_work_item_from_cycle`, `transfer_cycle_work_items` (rollover of unfinished work from an ended cycle into the next). If a project has cycles, "what's next" means "what's in the current cycle", and "week" means sprint close.
 
 ## 5. Writing
 
