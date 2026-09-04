@@ -10,7 +10,9 @@ In Scrummy: **Settings → API tokens → Add token**. The modal shows the MCP c
 https://<your-scrummy-host>/mcp/?token=<your-token>
 ```
 
-If your token reaches more than one workspace, append `&workspace=<slug>` so calls are not refused for ambiguity.
+You do not need to name a workspace. The server works out which one holds the project being acted on, and reads, searches and member lookups span every workspace the token reaches, so one connection covers all of them.
+
+Append `&workspace=<slug>` only to deliberately restrict the connection to a single workspace.
 
 The token acts as you. Everything the skill does is done in your name and shows in the activity log as you.
 
@@ -21,7 +23,7 @@ The token acts as you. Everything the skill does is done in your name and shows 
 ```bash
 export SCRUMMY_URL="https://<your-scrummy-host>"      # no trailing slash
 export SCRUMMY_TOKEN="<your-token>"
-export SCRUMMY_WORKSPACE="<slug>"                     # optional if the token reaches one workspace
+export SCRUMMY_WORKSPACE="<slug>"                     # optional; set only to restrict to one workspace
 
 claude plugin marketplace add SAFE-AI-Global/scrummy-skill    # this repo
 claude plugin install scrummy@scrummy-skill
@@ -43,7 +45,7 @@ Then connect the MCP yourself:
 
 ```bash
 claude mcp add --transport http scrummy \
-  "https://<your-scrummy-host>/mcp/?token=<your-token>&workspace=<slug>"
+  "https://<your-scrummy-host>/mcp/?token=<your-token>"
 ```
 
 ### Try it without installing
@@ -56,7 +58,7 @@ claude --plugin-dir /path/to/scrummy
 
 1. Run `bin/package.sh` (or zip the folder yourself; the zip must contain the `scrummy/` folder at its root, with `SKILL.md` inside it).
 2. In claude.ai: **Customize → Skills → Add** and upload the zip. Enable it.
-3. **Settings → Connectors → Add custom connector** with the MCP URL from step 1, including the token and workspace parameters.
+3. **Settings → Connectors → Add custom connector** with the MCP URL from step 1. The token is all it needs.
 
 Then talk to it in any chat: "scrummy, capture this", "dump: …", "what's next on the board".
 
@@ -97,7 +99,7 @@ Or just talk:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| "workspace is ambiguous" | Token reaches several workspaces, none pinned | Add `&workspace=<slug>` to the URL, or set `SCRUMMY_WORKSPACE` |
+| "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name it in that call, or set `SCRUMMY_WORKSPACE` to make one the default |
 | 401 on every call | Token invalid or expired | Make a new one in Settings → API tokens |
 | Skill fires on ordinary code talk | Description matched loosely | It should decline silently; if it keeps happening, add `disable-model-invocation: true` to `SKILL.md` and invoke with `/scrummy` |
 | Assignment fails | Person is not a project member | The skill adds them first; if it cannot, they need a workspace invitation |

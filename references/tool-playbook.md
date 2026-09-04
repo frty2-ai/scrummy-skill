@@ -1,6 +1,6 @@
 # Scrummy MCP playbook
 
-Scrummy is a Plane-backed workspace exposed over MCP. The connector may appear under more than one name pointing at the same backend. Use whichever authenticates and stay on it; do not mirror calls across both.
+Scrummy is a Plane-backed workspace exposed over MCP. One token normally reaches several workspaces and every tool works across them, so treat the whole estate as one surface. The connector may appear under more than one name pointing at the same backend. Use whichever authenticates and stay on it; do not mirror calls across both.
 
 ## Contents
 
@@ -26,7 +26,7 @@ Scrummy is a Plane-backed workspace exposed over MCP. The connector may appear u
 - **State is not progress.** A ticket can sit in a started state untouched for weeks. `list_work_item_activity` is the only honest answer to "has this moved?"
 - **Relations are permanent.** There is no delete for `add_work_item_relation`. Be sure before you wire a `blocked_by`.
 - **One cycle per item.** Adding an item to a cycle moves it out of any other. Plane refuses additions to a cycle whose end date has passed.
-- **Workspace pinning.** If the token reaches several workspaces and none is pinned, calls are refused until the MCP URL carries `?workspace=<slug>`. Say it once and move on.
+- **The workspace resolves itself.** Pass `project_id` and the workspace holding that project is looked up for you; a token reaching several workspaces needs nothing pinned. `list_projects`, `search_work_items`, `list_workspace_members` and `get_work_item_by_identifier` answer across every reachable workspace by default and tag each row with its `workspace_slug`. Pass an explicit `workspace` only to create a project, to act on invitations, or to deliberately narrow a search.
 - **The tool surface varies by deployment.** Newer servers add tools; an older one will not have every tool named here. Trust the connector's actual tool list over this document, and treat an unknown-tool error as a fact about that server rather than something to retry.
 - **Rate limits** are per token per minute. Prefer `get_work_item_context` and `expand=` over bursts of single-field lookups.
 
@@ -36,24 +36,24 @@ Scrummy is a Plane-backed workspace exposed over MCP. The connector may appear u
 
 | Tool | Use it for |
 |---|---|
-| `authenticate` | Identity behind the token and the active workspace. Always first. |
-| `list_my_workspaces` | Slugs, names, roles. Only when ambiguity is reported. |
-| `list_projects` | Every project with id, identifier, timezone, lead. |
+| `authenticate` | Who the token belongs to, and every workspace it reaches. Always first. Several workspaces is reach, not a question to put to anyone. |
+| `list_my_workspaces` | Slugs, names, roles. Needed only to name a workspace explicitly, as `create_project` requires. |
+| `list_projects` | Every project across every reachable workspace, each tagged with `workspace_slug`. One call is the whole estate. |
 | `get_project` | One project with entity counts (members, states, labels, items, modules, cycles). |
-| `list_workspace_members` | Everyone in the workspace, the pool you can add to projects. |
+| `list_workspace_members` | Everyone across all reachable workspaces, tagged by workspace. The same person in two workspaces is two rows and one human. |
 | `list_members` | Members of one project with roles. This is who you can assign. |
 
-A good session map after orientation: project name → id + identifier; member name → id and which projects they are in; each project's states grouped by `backlog / unstarted / started / completed / cancelled`; whether cycles or modules exist. Keep it in your head for the rest of the session. Offer to persist it in `SCRUMMY.md` when you are inside a repo.
+A good session map after orientation: project name → id + identifier + workspace; member name → id and which projects they are in; each project's states grouped by `backlog / unstarted / started / completed / cancelled`; whether cycles or modules exist. Keep it in your head for the rest of the session. Offer to persist it in `SCRUMMY.md` when you are inside a repo.
 
 ## 3. Reading work
 
 | Tool | Use it for |
 |---|---|
 | `list_work_items` | Paginated project backlog. Pass `expand=assignees,labels` or you get bare UUIDs. `order_by` accepts `-updated_at`, `priority`, `state__name` and their reverses. |
-| `search_work_items` | Title text search across the workspace or within a project. Run this before creating anything. |
+| `search_work_items` | Title search across every reachable workspace by default. Run this before creating anything: it is how you catch a duplicate that lives in the other workspace. |
 | `get_work_item_context` | **Preferred read.** One Markdown document: description, sub-items, relations, links and the comment thread with names resolved. Use it whenever you are about to reason about or act on an item. |
 | `get_work_item` | Raw field values when you need them to feed an update. |
-| `get_work_item_by_identifier` | Look up by human id, e.g. project `PAY`, issue `42`. This is how branch names and commit messages get resolved. |
+| `get_work_item_by_identifier` | Look up by human id, e.g. project `PAY`, issue `42`. How branch names and commit messages resolve. Codes are unique per workspace, not across them, so a code in two workspaces comes back as `ambiguous` with both matches rather than a guess — that is one of the few things worth asking about. |
 | `list_comments` | The thread alone, paginated. |
 | `list_work_item_relations` / `list_work_item_links` | Dependency graph and external URLs. |
 | `list_work_item_activity` | Audit trail. Who touched it, when, what changed. |
@@ -101,7 +101,7 @@ Pages must be archived before deletion; a 400 on `delete_page` usually means tha
 ## 8. Recipes the moves rely on
 
 ### Orientation (every session)
-1. `authenticate` → principal, workspace, and anchor today's date.
+1. `authenticate` → principal, the workspaces in reach, and anchor today's date.
 2. `list_projects`; `list_workspace_members`.
 3. For the project in play: `list_states` (note the groups), `list_labels`, `list_cycles cycle_view=current`, `list_modules`.
 4. `list_work_items` with `expand=assignees,labels`, sorted by `-updated_at`, paginate as needed.

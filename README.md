@@ -22,6 +22,8 @@ You talk. It does the bookkeeping, then tells you the one thing that changes you
 
 Twelve moves, described in `playbooks/`: capture, sync, next, brief, review, plan, rebalance, risk, week, pipeline, campaign, client. They are lenses, not scripts; the model combines them as the situation demands.
 
+One token usually reaches several workspaces. It treats them as one surface: projects, people and searches span all of them, and the workspace for any given action is worked out from the project rather than asked about. A duplicate in the other workspace is still caught, and a person loaded across two is still one overloaded person.
+
 ## What it will not do
 
 Send a message to a person or a channel without an explicit go. Claim a write it did not see succeed. Mark something done because a branch exists or tests passed locally. Inflate priority. Assign someone who is not a project member. Delete anything, or close work it did not open, without asking. Add process nobody asked for.

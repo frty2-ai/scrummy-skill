@@ -1,4 +1,4 @@
-# Workspace map — `<slug>`
+# Workspace map
 
 A cache, not gospel: live calls win when they disagree, and new projects will not be here. Rebuild with `list_projects` and `list_workspace_members` when something looks missing.
 
@@ -18,9 +18,13 @@ Names that appear in conversation but are not workspace members: <list>. Do not 
 
 ## Projects
 
-| Project | Identifier | id | Timezone | What it is for |
-|---|---|---|---|---|
-| | | | | |
+One table for the whole estate. Projects are addressed by id, and the workspace
+is looked up from the project, so the workspace column is for your orientation
+and for the rare call that needs it by name.
+
+| Project | Identifier | id | Workspace | Timezone | What it is for |
+|---|---|---|---|---|---|
+| | | | | | |
 
 ## Routing hints
 
