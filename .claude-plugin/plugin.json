@@ -6,8 +6,8 @@
   "author": {
     "name": "Scrummy"
   },
-  "homepage": "https://github.com/SAFE-AI-Global/scrummy-skill",
-  "repository": "https://github.com/SAFE-AI-Global/scrummy-skill",
+  "homepage": "https://github.com/frty2-ai/scrummy-skill",
+  "repository": "https://github.com/frty2-ai/scrummy-skill",
   "license": "AGPL-3.0-only",
   "keywords": ["project-management", "plane", "scrummy", "chief-of-staff", "agile", "async"],
   "skills": ["./"]

@@ -25,7 +25,7 @@ export SCRUMMY_URL="https://<your-scrummy-host>"      # no trailing slash
 export SCRUMMY_TOKEN="<your-token>"
 export SCRUMMY_WORKSPACE="<slug>"                     # optional; set only to restrict to one workspace
 
-claude plugin marketplace add SAFE-AI-Global/scrummy-skill    # this repo
+claude plugin marketplace add frty2-ai/scrummy-skill    # this repo
 claude plugin install scrummy@scrummy-skill
 ```
 
@@ -36,9 +36,9 @@ Verify with `/mcp` inside Claude Code (you want `scrummy` connected) and `/scrum
 ### As a plain skill (no plugin)
 
 ```bash
-git clone https://github.com/SAFE-AI-Global/scrummy-skill ~/.claude/skills/scrummy      # personal, every project
+git clone https://github.com/frty2-ai/scrummy-skill ~/.claude/skills/scrummy      # personal, every project
 # or
-git clone https://github.com/SAFE-AI-Global/scrummy-skill .claude/skills/scrummy         # this repo only, shared with the team
+git clone https://github.com/frty2-ai/scrummy-skill .claude/skills/scrummy         # this repo only, shared with the team
 ```
 
 Then connect the MCP yourself:
