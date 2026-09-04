@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "scrummy",
+  "version": "0.1.0",
+  "description": "Chief of staff for a Scrummy (Plane) workspace: turns conversations and code into board state, tells you what's next, briefs stakeholders, flags deadlines that cannot absorb a late start.",
+  "author": {
+    "name": "Scrummy"
+  },
+  "homepage": "https://github.com/scrummy-app/scrummy-skill",
+  "repository": "https://github.com/scrummy-app/scrummy-skill",
+  "license": "AGPL-3.0-only",
+  "keywords": ["project-management", "plane", "scrummy", "chief-of-staff", "agile", "async"],
+  "skills": ["./"]
+}

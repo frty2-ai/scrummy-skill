@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "scrummy",
+  "owner": {
+    "name": "Scrummy"
+  },
+  "metadata": {
+    "description": "Skills for working with a Scrummy (Plane) workspace from Claude.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "scrummy",
+      "source": "./",
+      "description": "Chief of staff for a Scrummy workspace: capture, sync, next, brief, review, plan, rebalance, risk, week, pipeline, campaign, client.",
+      "version": "0.1.0",
+      "category": "productivity",
+      "keywords": ["project-management", "plane", "scrummy", "agile"]
+    }
+  ]
+}
