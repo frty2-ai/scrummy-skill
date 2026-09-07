@@ -73,7 +73,24 @@ the MCP connection together.
 |---|---|
 | Source | `frty2-ai/scrummy-skill` |
 | Git ref | `main` |
-| Sparse paths | `plugins/scrummy` |
+| Sparse paths | *leave empty* |
+
+**Leave sparse paths empty.** Codex looks for the marketplace manifest at the
+root of whatever it checked out, and it only accepts these four paths:
+
+```
+.agents/plugins/marketplace.json
+.agents/plugins/api_marketplace.json
+.claude-plugin/marketplace.json
+.cursor-plugin/marketplace.json
+```
+
+Narrowing the checkout to `plugins/scrummy` leaves none of them present, and
+the add fails with *marketplace root does not contain a supported manifest*.
+The whole repo is under a megabyte, so a full checkout costs nothing.
+
+If you do want a narrow checkout, list both paths: `.agents` and
+`plugins/scrummy`.
 
 Install **Scrummy** from the marketplace that appears. Authentication is set to
 happen on install, so it opens the Scrummy consent screen: sign in, leave the
@@ -157,6 +174,7 @@ Or just talk:
 
 | Symptom | Cause | Fix |
 |---|---|---|
+| "marketplace root does not contain a supported manifest" | Sparse paths excluded the manifest | Clear the sparse paths field, or add `.agents` alongside `plugins/scrummy` |
 | Agent never opens a browser | The deployment has not set `PLANE_PUBLIC_URL`, so OAuth is off | Set it on the MCP container to the public origin, then reconnect |
 | A workspace is missing | It was left unticked at consent | Reconnect and tick it; the refusal message names the workspace |
 | "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name the workspace in that call |
