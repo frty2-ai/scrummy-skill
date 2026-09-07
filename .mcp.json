@@ -2,7 +2,7 @@
   "mcpServers": {
     "scrummy": {
       "type": "http",
-      "url": "${SCRUMMY_URL}/mcp"
+      "url": "${SCRUMMY_URL:-https://scrum.beta.safeai.global}/mcp"
     }
   }
 }

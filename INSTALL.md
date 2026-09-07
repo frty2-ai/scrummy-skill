@@ -25,15 +25,19 @@ hidden. You can withdraw it later from Scrummy settings.
 ### As a plugin from GitHub (recommended)
 
 ```bash
-export SCRUMMY_URL="https://<your-scrummy-host>"      # no trailing slash
-
 claude plugin marketplace add frty2-ai/scrummy-skill
 claude plugin install scrummy@scrummy-skill
 ```
 
-Put the export in your shell profile so every session sees it. The plugin's
-`.mcp.json` registers the MCP server from it; nothing else is configured,
-because the connection carries no credential.
+The plugin registers the MCP server itself; nothing else is configured, because
+the connection carries no credential. Only set `SCRUMMY_URL` if you run your own
+Scrummy host:
+
+```bash
+export SCRUMMY_URL="https://<your-scrummy-host>"      # no trailing slash
+```
+
+Put that export in your shell profile so every session sees it.
 
 Run `/mcp` inside Claude Code and authenticate `scrummy` when prompted. That
 opens the consent screen. `/scrummy` invokes the skill by hand.
