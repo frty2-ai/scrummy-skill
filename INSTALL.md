@@ -1,20 +1,24 @@
 # Installing `scrummy`
 
-You need two things: the skill (this folder) and a connection to the Scrummy MCP server.
+You need two things: the skill (this folder) and a connection to the Scrummy
+MCP server.
 
-## 1. Get a token and the MCP URL
+## 1. The connection
 
-In Scrummy: **Settings → API tokens → Add token**. The modal shows the MCP connection URL for your instance, of the form:
+There is no token to copy. The MCP endpoint is one URL:
 
 ```
-https://<your-scrummy-host>/mcp/?token=<your-token>
+https://<your-scrummy-host>/mcp
 ```
 
-You do not need to name a workspace. The server works out which one holds the project being acted on, and reads, searches and member lookups span every workspace the token reaches, so one connection covers all of them.
+Point an agent at it and the agent does the rest: it discovers that the
+endpoint is protected, opens Scrummy in your browser, and asks you to sign in.
+You are shown which workspaces it wants, with all of them ticked. Untick
+anything you would rather keep out, approve, and you are returned to the agent
+with the connection live.
 
-Append `&workspace=<slug>` only to deliberately restrict the connection to a single workspace.
-
-The token acts as you. Everything the skill does is done in your name and shows in the activity log as you.
+Whatever you leave unticked is unreachable with that connection, not merely
+hidden. You can withdraw it later from Scrummy settings.
 
 ## 2. Claude Code
 
@@ -22,16 +26,17 @@ The token acts as you. Everything the skill does is done in your name and shows 
 
 ```bash
 export SCRUMMY_URL="https://<your-scrummy-host>"      # no trailing slash
-export SCRUMMY_TOKEN="<your-token>"
-export SCRUMMY_WORKSPACE="<slug>"                     # optional; set only to restrict to one workspace
 
-claude plugin marketplace add frty2-ai/scrummy-skill    # this repo
+claude plugin marketplace add frty2-ai/scrummy-skill
 claude plugin install scrummy@scrummy-skill
 ```
 
-Put the three exports in your shell profile so every session sees them. The plugin's `.mcp.json` reads them and registers the `scrummy` MCP server with the token in an `Authorization` header, so it never appears in a URL or a log.
+Put the export in your shell profile so every session sees it. The plugin's
+`.mcp.json` registers the MCP server from it; nothing else is configured,
+because the connection carries no credential.
 
-Verify with `/mcp` inside Claude Code (you want `scrummy` connected) and `/scrummy` to invoke the skill by hand.
+Run `/mcp` inside Claude Code and authenticate `scrummy` when prompted. That
+opens the consent screen. `/scrummy` invokes the skill by hand.
 
 ### As a plain skill (no plugin)
 
@@ -44,9 +49,10 @@ git clone https://github.com/frty2-ai/scrummy-skill .claude/skills/scrummy      
 Then connect the MCP yourself:
 
 ```bash
-claude mcp add --transport http scrummy \
-  "https://<your-scrummy-host>/mcp/?token=<your-token>"
+claude mcp add --transport http scrummy "https://<your-scrummy-host>/mcp"
 ```
+
+Then `/mcp` and authenticate.
 
 ### Try it without installing
 
@@ -58,7 +64,7 @@ claude --plugin-dir /path/to/scrummy
 
 1. Run `bin/package.sh` (or zip the folder yourself; the zip must contain the `scrummy/` folder at its root, with `SKILL.md` inside it).
 2. In claude.ai: **Customize → Skills → Add** and upload the zip. Enable it.
-3. **Settings → Connectors → Add custom connector** with the MCP URL from step 1. The token is all it needs.
+3. **Settings → Connectors → Add custom connector** with the MCP URL from step 1. Connecting opens the Scrummy consent screen.
 
 Then talk to it in any chat: "scrummy, capture this", "dump: …", "what's next on the board".
 
@@ -99,7 +105,9 @@ Or just talk:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name it in that call, or set `SCRUMMY_WORKSPACE` to make one the default |
-| 401 on every call | Token invalid or expired | Make a new one in Settings → API tokens |
+| Agent never opens a browser | The deployment has not set `PLANE_PUBLIC_URL`, so OAuth is off | Set it on the MCP container to the public origin, then reconnect |
+| A workspace is missing | It was left unticked at consent | Reconnect and tick it; the refusal message names the workspace |
+| "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name the workspace in that call |
+| 401 on every call | The connection expired or was revoked | Reconnect; the agent will run the sign-in again |
 | Skill fires on ordinary code talk | Description matched loosely | It should decline silently; if it keeps happening, add `disable-model-invocation: true` to `SKILL.md` and invoke with `/scrummy` |
 | Assignment fails | Person is not a project member | The skill adds them first; if it cannot, they need a workspace invitation |

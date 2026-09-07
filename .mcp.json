@@ -2,10 +2,7 @@
   "mcpServers": {
     "scrummy": {
       "type": "http",
-      "url": "${SCRUMMY_URL}/mcp/?workspace=${SCRUMMY_WORKSPACE:-}",
-      "headers": {
-        "Authorization": "Bearer ${SCRUMMY_TOKEN}"
-      }
+      "url": "${SCRUMMY_URL}/mcp"
     }
   }
 }

@@ -22,7 +22,7 @@ You talk. It does the bookkeeping, then tells you the one thing that changes you
 
 Twelve moves, described in `playbooks/`: capture, sync, next, brief, review, plan, rebalance, risk, week, pipeline, campaign, client. They are lenses, not scripts; the model combines them as the situation demands.
 
-One token usually reaches several workspaces. It treats them as one surface: projects, people and searches span all of them, and the workspace for any given action is worked out from the project rather than asked about. A duplicate in the other workspace is still caught, and a person loaded across two is still one overloaded person.
+A connection usually reaches several workspaces. It treats them as one surface: projects, people and searches span all of them, and the workspace for any given action is worked out from the project rather than asked about. A duplicate in the other workspace is still caught, and a person loaded across two is still one overloaded person.
 
 ## What it will not do
 
@@ -51,7 +51,7 @@ See [INSTALL.md](INSTALL.md). Short version: Claude Code users add this repo as 
 
 ## Requirements
 
-- A Scrummy (Plane) instance with the MCP server enabled, and a personal access token from **Settings → API tokens**. The token modal hands you the MCP URL.
+- A Scrummy (Plane) instance with the MCP server enabled. Connecting needs one URL and no token: the agent sends you to Scrummy to sign in and tick which workspaces it may reach.
 - Claude Code, or claude.ai on a plan with custom skills.
 
 ## Design notes
