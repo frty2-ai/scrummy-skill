@@ -60,7 +60,48 @@ Then `/mcp` and authenticate.
 claude --plugin-dir /path/to/scrummy
 ```
 
-## 3. claude.ai
+## 3. Codex and ChatGPT
+
+`SKILL.md` follows the [Agent Skills open standard](https://agentskills.io), so
+the same folder works here unchanged. `agents/openai.yaml` adds the
+OpenAI-specific half: how the skill is labelled in the UI, and a declaration
+that it depends on the Scrummy MCP server. Every other agent ignores that file.
+
+### Codex
+
+Install it with the skill installer, pointing at this repository:
+
+```
+$skill-installer install https://github.com/frty2-ai/scrummy-skill
+```
+
+Or clone it into the skills directory yourself:
+
+```bash
+git clone https://github.com/frty2-ai/scrummy-skill ~/.agents/skills/scrummy   # personal
+git clone https://github.com/frty2-ai/scrummy-skill .agents/skills/scrummy     # this project
+```
+
+Restart Codex to pick it up.
+
+Point the MCP dependency at your own deployment by editing the `url` in
+`agents/openai.yaml`, since the one committed here names ours. Codex reads
+that dependency to offer the connection; the sign-in is the same OAuth flow,
+so there is still no token.
+
+### ChatGPT
+
+Add the MCP server under **Settings → Connectors → Add custom connector** with:
+
+```
+https://<your-scrummy-host>/mcp
+```
+
+Connecting opens the Scrummy consent screen. Then add the skill itself the way
+your ChatGPT plan exposes custom skills; the folder is already in the format it
+expects.
+
+## 4. claude.ai
 
 1. Run `bin/package.sh` (or zip the folder yourself; the zip must contain the `scrummy/` folder at its root, with `SKILL.md` inside it).
 2. In claude.ai: **Customize → Skills → Add** and upload the zip. Enable it.
@@ -68,11 +109,11 @@ claude --plugin-dir /path/to/scrummy
 
 Then talk to it in any chat: "scrummy, capture this", "dump: …", "what's next on the board".
 
-## 4. Per-repository setup for the dev sync (optional)
+## 5. Per-repository setup for the dev sync (optional)
 
 Copy `examples/SCRUMMY.md` to the root of any repository whose work lives in a Scrummy project, and edit the project identifier and the definition of done. The skill reads it at the start of every session in that repo and uses it to sync commits, branches, PRs and test results to the board without asking which project you mean.
 
-## 5. Using it
+## 6. Using it
 
 The skill triggers on its own when a message is clearly about the board. To force it, name it or use the slash command:
 

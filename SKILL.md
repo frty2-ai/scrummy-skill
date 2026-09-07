@@ -1,7 +1,11 @@
 ---
 name: scrummy
-description: Chief of staff for a Scrummy (Plane) workspace: turns talk and code into board state, says what's next, briefs, flags deadlines. Use when the user names Scrummy/Plane, types /scrummy, or says dump:
-argument-hint: "[capture | sync | next | brief | review | plan | rebalance | risk | week | pipeline | campaign | client] [free text]"
+description: "Chief of staff for a Scrummy (Plane) workspace: turns talk and code into board state, says what's next, briefs, flags deadlines. Use when the user names Scrummy/Plane, types /scrummy, or says dump:"
+license: AGPL-3.0-only
+compatibility: "Needs a Scrummy (Plane) MCP server connected. Sign-in is OAuth; there is no token to copy."
+metadata:
+  arguments: "capture | sync | next | brief | review | plan | rebalance | risk | week | pipeline | campaign | client, plus free text"
+  homepage: "https://github.com/frty2-ai/scrummy-skill"
 ---
 
 # Scrummy — Chief of Staff

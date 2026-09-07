@@ -28,6 +28,16 @@ A connection usually reaches several workspaces. It treats them as one surface: 
 
 Send a message to a person or a channel without an explicit go. Claim a write it did not see succeed. Mark something done because a branch exists or tests passed locally. Inflate priority. Assign someone who is not a project member. Delete anything, or close work it did not open, without asking. Add process nobody asked for.
 
+## Where it runs
+
+`SKILL.md` follows the [Agent Skills open standard](https://agentskills.io), so
+one folder serves every agent that implements it: Claude Code and claude.ai,
+Codex and ChatGPT, and the rest of the ecosystem. Two small files carry the
+platform-specific parts and are ignored elsewhere:
+
+- `.claude-plugin/` and `.mcp.json` — plugin manifest and MCP registration for Claude Code.
+- `agents/openai.yaml` — UI labelling and the MCP dependency declaration for Codex and ChatGPT.
+
 ## Layout
 
 ```
@@ -40,6 +50,8 @@ scrummy/
 │   └── workspace-map.template.md
 ├── playbooks/                   one file per move
 ├── examples/SCRUMMY.md          per-repo config that lets code sync to the board
+├── agents/openai.yaml           Codex and ChatGPT metadata + MCP dependency
+├── assets/                      icons referenced by agents/openai.yaml
 ├── .claude-plugin/              plugin + marketplace manifests for Claude Code
 ├── .mcp.json                    registers the Scrummy MCP (env-driven)
 └── bin/package.sh               zips the skill for claude.ai

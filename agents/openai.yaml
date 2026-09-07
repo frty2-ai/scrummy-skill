@@ -1,0 +1,24 @@
+# Codex- and ChatGPT-specific metadata. Every other agent ignores this file;
+# the portable half of the skill is SKILL.md, which follows the Agent Skills
+# open standard on its own.
+interface:
+  display_name: "Scrummy"
+  short_description: "Chief of staff for your Scrummy work board"
+  icon_small: "./assets/scrummy-icon.svg"
+  icon_large: "./assets/scrummy-logo.svg"
+  brand_color: "#3F76FF"
+  default_prompt: "Use $scrummy to tell me what is actually at risk on my board this week."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "scrummy"
+      description: "Scrummy MCP server. Connecting opens Scrummy in a browser to sign in and choose which workspaces the agent may reach; there is no token to paste. Replace the URL with your own deployment's origin."
+      transport: "streamable_http"
+      url: "https://scrum.beta.safeai.global/mcp"
+
+policy:
+  # The skill decides for itself when the conversation is about the board, and
+  # declines silently when it is about the code in front of you. That judgment
+  # is in SKILL.md and only works if the model is allowed to make the call.
+  allow_implicit_invocation: true
