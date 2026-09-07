@@ -37,6 +37,11 @@ platform-specific parts and are ignored elsewhere:
 
 - `.claude-plugin/` and `.mcp.json` — plugin manifest and MCP registration for Claude Code.
 - `agents/openai.yaml` — UI labelling and the MCP dependency declaration for Codex and ChatGPT.
+- `.agents/plugins/marketplace.json` and `plugins/scrummy/` — the same skill packaged as a
+  ChatGPT and Codex plugin, so one install carries the skill and the MCP connection together.
+  `plugins/scrummy/skills/scrummy/` is a copy of the root skill, kept in step by
+  `bin/sync-openai-plugin.sh`, because a plugin has to be self-contained: the marketplace
+  fetches only its sparse path.
 
 ## Layout
 

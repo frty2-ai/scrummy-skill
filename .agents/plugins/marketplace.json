@@ -1,0 +1,20 @@
+{
+  "name": "scrummy",
+  "interface": {
+    "displayName": "Scrummy"
+  },
+  "plugins": [
+    {
+      "name": "scrummy",
+      "source": {
+        "source": "local",
+        "path": "./plugins/scrummy"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -60,46 +60,57 @@ Then `/mcp` and authenticate.
 claude --plugin-dir /path/to/scrummy
 ```
 
-## 3. Codex and ChatGPT
+## 3. ChatGPT and Codex
 
-`SKILL.md` follows the [Agent Skills open standard](https://agentskills.io), so
-the same folder works here unchanged. `agents/openai.yaml` adds the
-OpenAI-specific half: how the skill is labelled in the UI, and a declaration
-that it depends on the Scrummy MCP server. Every other agent ignores that file.
-
-### Codex
-
-Install it with the skill installer, pointing at this repository:
-
-```
-$skill-installer install https://github.com/frty2-ai/scrummy-skill
-```
-
-Or clone it into the skills directory yourself:
-
-```bash
-git clone https://github.com/frty2-ai/scrummy-skill ~/.agents/skills/scrummy   # personal
-git clone https://github.com/frty2-ai/scrummy-skill .agents/skills/scrummy     # this project
-```
-
-Restart Codex to pick it up.
-
-Point the MCP dependency at your own deployment by editing the `url` in
-`agents/openai.yaml`, since the one committed here names ours. Codex reads
-that dependency to offer the connection; the sign-in is the same OAuth flow,
-so there is still no token.
+This repo doubles as a plugin marketplace, so one install brings the skill and
+the MCP connection together.
 
 ### ChatGPT
 
-Add the MCP server under **Settings → Connectors → Add custom connector** with:
+**Settings → Plugins → Add plugin marketplace**, then:
 
-```
-https://<your-scrummy-host>/mcp
+| Field | Value |
+|---|---|
+| Source | `frty2-ai/scrummy-skill` |
+| Git ref | `main` |
+| Sparse paths | `plugins/scrummy` |
+
+Install **Scrummy** from the marketplace that appears. Authentication is set to
+happen on install, so it opens the Scrummy consent screen: sign in, leave the
+workspaces ticked, approve.
+
+Adding a marketplace is gated behind Developer mode. If you do not see the
+option, turn it on in Settings first.
+
+### Codex
+
+```bash
+codex plugin marketplace add frty2-ai/scrummy-skill
+codex plugin install scrummy
 ```
 
-Connecting opens the Scrummy consent screen. Then add the skill itself the way
-your ChatGPT plan exposes custom skills; the folder is already in the format it
-expects.
+### Pointing at your own deployment
+
+The plugin's `plugins/scrummy/.mcp.json` names our host. For a different
+Scrummy instance, fork the repo, change the two URLs there and in
+`agents/openai.yaml`, and add your fork as the marketplace instead.
+
+### Skill only, no plugin
+
+The repo root is a plain Agent Skill, so Codex can also take it directly:
+
+```bash
+git clone https://github.com/frty2-ai/scrummy-skill ~/.agents/skills/scrummy
+```
+
+Then add the MCP server yourself in `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.scrummy]
+url = "https://scrum.beta.safeai.global/mcp"
+```
+
+and run `codex mcp login scrummy`.
 
 ## 4. claude.ai
 

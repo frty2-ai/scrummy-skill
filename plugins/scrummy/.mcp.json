@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "scrummy": {
+      "type": "http",
+      "url": "https://scrum.beta.safeai.global/mcp",
+      "oauth_resource": "https://scrum.beta.safeai.global/mcp"
+    }
+  }
+}
