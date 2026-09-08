@@ -74,7 +74,9 @@ two ChatGPT surfaces get their tools by different routes.
 | **Scrummy for Codex** | `scrummy` | ChatGPT desktop (Work mode), Codex CLI and IDE | declares the MCP server itself |
 | **Scrummy for Chat** | `scrummy-chat` | ChatGPT Chat, on web, desktop and mobile | calls a connector ChatGPT hosts |
 
-Both appear in marketplace search, so pick by the surface you are in.
+Only **Scrummy for Codex** is published today. The Chat plugin is built but
+deliberately unlisted until it has a real app id, because an entry pointing at
+a placeholder installs and then fails with *Couldn't load connector*.
 
 A plugin that declares its own MCP server is marked **Desktop only** by OpenAI
 and cannot run in ChatGPT on the web. That holds even when the server is a
@@ -131,25 +133,34 @@ extension, which share one MCP configuration.
 
 ### Chat on the web
 
-`scrummy-chat` ships with a placeholder connector id and is held out of the
-marketplace until that id is real, so nobody installs a plugin that resolves
-to nothing. Only the person publishing the repo can mint one. Once:
+Chat reaches tools only through an app ChatGPT itself hosts, and only the
+person publishing this repo can mint one. Until then `plugins/scrummy-chat`
+exists but is not listed in the marketplace.
 
 1. In ChatGPT, **Settings → Security and login → Developer mode**, on.
 2. Go to **chatgpt.com/plugins**, press **+**, give it a name, and enter the
    server URL including the path: `https://scrum.beta.safeai.global/mcp`.
 3. Approve the OAuth flow, then review the tools it discovers.
-4. Copy the connection's id out of the browser URL.
+4. Copy the **app's** id out of the browser URL. It is the app id, not a
+   plugin id.
 5. Wire it in and publish:
 
 ```bash
-sh bin/enable-chat-plugin.sh <connector-id>
-git commit -am "Enable the Chat plugin"
+sh bin/enable-chat-plugin.sh <app-id>
+git commit -am "Publish the Chat plugin"
 # then republish the mirror
 ```
 
-That writes the id into `plugins/scrummy-chat/.app.json` and flips the plugin
-to `AVAILABLE`. After the marketplace syncs, install **Scrummy for Chat**.
+That writes the id into `plugins/scrummy-chat/.app.json` and adds the
+marketplace entry. After the marketplace syncs, install **Scrummy for Chat**.
+
+**The marketplace also has to reach the web.** A marketplace you add in the
+desktop app lives in the local `~/.codex/config.toml`, and ChatGPT web does
+not read local Codex configuration, so it will not appear at chatgpt.com. For
+that, a workspace admin imports it under **Workspace settings → Plugins → Add
+→ Import marketplace**, which needs a Business or Enterprise workspace. The
+alternative is publishing through OpenAI's plugin submission portal, which
+lists it in the universal directory for everyone.
 
 ### Pointing at your own deployment
 
@@ -221,6 +232,8 @@ Or just talk:
 |---|---|---|
 | "marketplace root does not contain a supported manifest" | Sparse paths excluded the manifest | Clear the sparse paths field, or add `.agents` alongside `plugins/scrummy` |
 | Plugin installed in Chat but no tools, works in Work mode | You installed **Scrummy for Codex**, which bundles an MCP server, so OpenAI marks it Desktop only | Install **Scrummy for Chat** instead, which needs a registered connector id |
+| "Couldn't load connector" when adding the Chat plugin | Its `.app.json` still holds the placeholder id, so there is no app to load | Register the app in developer mode and run `bin/enable-chat-plugin.sh`; until then only install **Scrummy for Codex** |
+| Marketplace missing on chatgpt.com but present in the desktop app | It was added to the local `~/.codex/config.toml`, which ChatGPT web does not read | A workspace admin imports it under Workspace settings → Plugins, or publish to the universal directory |
 | Agent never opens a browser | The deployment has not set `PLANE_PUBLIC_URL`, so OAuth is off | Set it on the MCP container to the public origin, then reconnect |
 | A workspace is missing | It was left unticked at consent | Reconnect and tick it; the refusal message names the workspace |
 | "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name the workspace in that call |

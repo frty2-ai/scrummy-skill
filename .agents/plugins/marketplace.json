@@ -15,18 +15,6 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Productivity"
-    },
-    {
-      "name": "scrummy-chat",
-      "source": {
-        "source": "local",
-        "path": "./plugins/scrummy-chat"
-      },
-      "policy": {
-        "installation": "NOT_AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
     }
   ]
 }

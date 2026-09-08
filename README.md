@@ -62,7 +62,7 @@ scrummy/
 ├── .claude-plugin/              plugin + marketplace manifests for Claude Code
 ├── .agents/plugins/             marketplace manifest for ChatGPT and Codex
 ├── plugins/scrummy/             "Scrummy for Codex" — Work mode, CLI, IDE (bundles the MCP server)
-├── plugins/scrummy-chat/        "Scrummy for Chat" — Chat on web/desktop/mobile (hosted connector)
+├── plugins/scrummy-chat/        "Scrummy for Chat" — built, unlisted until it has an app id
 ├── .mcp.json                    registers the Scrummy MCP (env-driven)
 ├── bin/sync-openai-plugin.sh    copies the skill into both plugins
 ├── bin/enable-chat-plugin.sh    writes the connector id, unlocks the Chat plugin
