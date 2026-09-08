@@ -1,0 +1,8 @@
+{
+  "apps": {
+    "scrummy": {
+      "id": "REPLACE_WITH_CONNECTOR_ID",
+      "required": true
+    }
+  }
+}

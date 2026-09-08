@@ -66,10 +66,22 @@ claude --plugin-dir /path/to/scrummy
 
 ## 3. ChatGPT and Codex
 
-This repo doubles as a plugin marketplace, so one install brings the skill and
-the MCP connection together.
+This repo doubles as a plugin marketplace. It carries two plugins, because the
+two ChatGPT surfaces get their tools by different routes.
 
-### ChatGPT
+| Plugin | Where it works | How it reaches the board |
+|---|---|---|
+| `scrummy` | ChatGPT desktop (Work mode), Codex CLI and IDE | declares the MCP server itself |
+| `scrummy-chat` | ChatGPT Chat, including the web | calls a connector ChatGPT hosts |
+
+A plugin that declares its own MCP server is marked **Desktop only** by OpenAI
+and cannot run in ChatGPT on the web. That holds even when the server is a
+remote HTTPS URL like ours, and adding an `.app.json` alongside does not lift
+it. Chat runs no local host, so a bundled server has nothing to run on; it
+reaches tools only through a connector registered with ChatGPT. Hence two
+plugins rather than one with both fields.
+
+### Adding the marketplace
 
 **Settings → Plugins → Add plugin marketplace**, then:
 
@@ -93,28 +105,55 @@ Narrowing the checkout to `plugins/scrummy` leaves none of them present, and
 the add fails with *marketplace root does not contain a supported manifest*.
 The whole repo is under a megabyte, so a full checkout costs nothing.
 
-If you do want a narrow checkout, list both paths: `.agents` and
-`plugins/scrummy`.
+If you do want a narrow checkout, list all three paths: `.agents`,
+`plugins/scrummy` and `plugins/scrummy-chat`.
+
+Adding a marketplace is gated behind Developer mode. If you do not see the
+option, turn it on in Settings first.
+
+### Desktop and Codex
 
 Install **Scrummy** from the marketplace that appears. Authentication is set to
 happen on install, so it opens the Scrummy consent screen: sign in, leave the
 workspaces ticked, approve.
 
-Adding a marketplace is gated behind Developer mode. If you do not see the
-option, turn it on in Settings first.
-
-### Codex
+In Codex:
 
 ```bash
 codex plugin marketplace add frty2-ai/scrummy-skill
 codex plugin install scrummy
 ```
 
+That covers ChatGPT desktop in Work mode, the Codex CLI, and the IDE
+extension, which share one MCP configuration.
+
+### Chat on the web
+
+`scrummy-chat` ships with a placeholder connector id and is held out of the
+marketplace until that id is real, so nobody installs a plugin that resolves
+to nothing. Only the person publishing the repo can mint one. Once:
+
+1. In ChatGPT, **Settings → Security and login → Developer mode**, on.
+2. Go to **chatgpt.com/plugins**, press **+**, give it a name, and enter the
+   server URL including the path: `https://scrum.beta.safeai.global/mcp`.
+3. Approve the OAuth flow, then review the tools it discovers.
+4. Copy the connection's id out of the browser URL.
+5. Wire it in and publish:
+
+```bash
+sh bin/enable-chat-plugin.sh <connector-id>
+git commit -am "Enable the Chat plugin"
+# then republish the mirror
+```
+
+That writes the id into `plugins/scrummy-chat/.app.json` and flips the plugin
+to `AVAILABLE`. After the marketplace syncs, install **Scrummy** in Chat.
+
 ### Pointing at your own deployment
 
-The plugin's `plugins/scrummy/.mcp.json` names our host. For a different
-Scrummy instance, fork the repo, change the two URLs there and in
-`agents/openai.yaml`, and add your fork as the marketplace instead.
+`plugins/scrummy/.mcp.json` names our host. For a different Scrummy instance,
+fork the repo, change the URL there and in `agents/openai.yaml`, register your
+own connector for the Chat plugin, and add your fork as the marketplace.
 
 ### Skill only, no plugin
 
@@ -179,6 +218,7 @@ Or just talk:
 | Symptom | Cause | Fix |
 |---|---|---|
 | "marketplace root does not contain a supported manifest" | Sparse paths excluded the manifest | Clear the sparse paths field, or add `.agents` alongside `plugins/scrummy` |
+| Plugin installed in Chat but no tools, works in Work mode | `scrummy` bundles an MCP server, so OpenAI marks it Desktop only | Install `scrummy-chat` instead, which needs a registered connector id |
 | Agent never opens a browser | The deployment has not set `PLANE_PUBLIC_URL`, so OAuth is off | Set it on the MCP container to the public origin, then reconnect |
 | A workspace is missing | It was left unticked at consent | Reconnect and tick it; the refusal message names the workspace |
 | "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name the workspace in that call |

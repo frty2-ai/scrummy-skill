@@ -37,9 +37,11 @@ platform-specific parts and are ignored elsewhere:
 
 - `.claude-plugin/` and `.mcp.json` — plugin manifest and MCP registration for Claude Code.
 - `agents/openai.yaml` — UI labelling and the MCP dependency declaration for Codex and ChatGPT.
-- `.agents/plugins/marketplace.json` and `plugins/scrummy/` — the same skill packaged as a
-  ChatGPT and Codex plugin, so one install carries the skill and the MCP connection together.
-  `plugins/scrummy/skills/scrummy/` is a copy of the root skill, kept in step by
+- `.agents/plugins/marketplace.json`, `plugins/scrummy/` and `plugins/scrummy-chat/` — the same
+  skill packaged as a ChatGPT and Codex plugin, so one install carries the skill and the board
+  connection together. There are two because a plugin that declares its own MCP server is marked
+  Desktop only by OpenAI, so Chat on the web needs a variant that points at a ChatGPT-hosted
+  connector instead. Each `skills/scrummy/` is a copy of the root skill, kept in step by
   `bin/sync-openai-plugin.sh`, because a plugin has to be self-contained: the marketplace
   fetches only its sparse path.
 
@@ -58,7 +60,12 @@ scrummy/
 ├── agents/openai.yaml           Codex and ChatGPT metadata + MCP dependency
 ├── assets/                      icons referenced by agents/openai.yaml
 ├── .claude-plugin/              plugin + marketplace manifests for Claude Code
+├── .agents/plugins/             marketplace manifest for ChatGPT and Codex
+├── plugins/scrummy/             plugin for desktop and Codex (bundles the MCP server)
+├── plugins/scrummy-chat/        plugin for Chat on the web (uses a hosted connector)
 ├── .mcp.json                    registers the Scrummy MCP (env-driven)
+├── bin/sync-openai-plugin.sh    copies the skill into both plugins
+├── bin/enable-chat-plugin.sh    writes the connector id, unlocks the Chat plugin
 └── bin/package.sh               zips the skill for claude.ai
 ```
 
