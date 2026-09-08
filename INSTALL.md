@@ -69,10 +69,12 @@ claude --plugin-dir /path/to/scrummy
 This repo doubles as a plugin marketplace. It carries two plugins, because the
 two ChatGPT surfaces get their tools by different routes.
 
-| Plugin | Where it works | How it reaches the board |
-|---|---|---|
-| `scrummy` | ChatGPT desktop (Work mode), Codex CLI and IDE | declares the MCP server itself |
-| `scrummy-chat` | ChatGPT Chat, including the web | calls a connector ChatGPT hosts |
+| Shown as | Plugin | Where it works | How it reaches the board |
+|---|---|---|---|
+| **Scrummy for Codex** | `scrummy` | ChatGPT desktop (Work mode), Codex CLI and IDE | declares the MCP server itself |
+| **Scrummy for Chat** | `scrummy-chat` | ChatGPT Chat, on web, desktop and mobile | calls a connector ChatGPT hosts |
+
+Both appear in marketplace search, so pick by the surface you are in.
 
 A plugin that declares its own MCP server is marked **Desktop only** by OpenAI
 and cannot run in ChatGPT on the web. That holds even when the server is a
@@ -113,9 +115,9 @@ option, turn it on in Settings first.
 
 ### Desktop and Codex
 
-Install **Scrummy** from the marketplace that appears. Authentication is set to
-happen on install, so it opens the Scrummy consent screen: sign in, leave the
-workspaces ticked, approve.
+Install **Scrummy for Codex** from the marketplace that appears.
+Authentication is set to happen on install, so it opens the Scrummy consent
+screen: sign in, leave the workspaces ticked, approve.
 
 In Codex:
 
@@ -147,7 +149,7 @@ git commit -am "Enable the Chat plugin"
 ```
 
 That writes the id into `plugins/scrummy-chat/.app.json` and flips the plugin
-to `AVAILABLE`. After the marketplace syncs, install **Scrummy** in Chat.
+to `AVAILABLE`. After the marketplace syncs, install **Scrummy for Chat**.
 
 ### Pointing at your own deployment
 
@@ -218,7 +220,7 @@ Or just talk:
 | Symptom | Cause | Fix |
 |---|---|---|
 | "marketplace root does not contain a supported manifest" | Sparse paths excluded the manifest | Clear the sparse paths field, or add `.agents` alongside `plugins/scrummy` |
-| Plugin installed in Chat but no tools, works in Work mode | `scrummy` bundles an MCP server, so OpenAI marks it Desktop only | Install `scrummy-chat` instead, which needs a registered connector id |
+| Plugin installed in Chat but no tools, works in Work mode | You installed **Scrummy for Codex**, which bundles an MCP server, so OpenAI marks it Desktop only | Install **Scrummy for Chat** instead, which needs a registered connector id |
 | Agent never opens a browser | The deployment has not set `PLANE_PUBLIC_URL`, so OAuth is off | Set it on the MCP container to the public origin, then reconnect |
 | A workspace is missing | It was left unticked at consent | Reconnect and tick it; the refusal message names the workspace |
 | "Could not tell which of N workspaces to use" | A call that needs a named workspace, such as creating a project, got none | Name the workspace in that call |

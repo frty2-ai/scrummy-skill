@@ -1,21 +1,31 @@
 {
   "name": "scrummy-chat",
   "version": "0.1.0",
-  "description": "Chief of staff for a Scrummy (Plane) work board, for ChatGPT Chat and Work. Turns conversations into board state, says what to do next, briefs stakeholders, and flags the deadlines that cannot absorb a late start.",
-  "author": { "name": "Scrummy" },
+  "description": "Chief of staff for a Scrummy (Plane) work board, for ChatGPT Chat on web, desktop and mobile. Turns conversations into board state, says what to do next, briefs stakeholders, and flags the deadlines that cannot absorb a late start. Use this one in Chat; use Scrummy for Codex in Work mode and the CLI.",
+  "author": {
+    "name": "Scrummy"
+  },
   "homepage": "https://github.com/frty2-ai/scrummy-skill",
   "repository": "https://github.com/frty2-ai/scrummy-skill",
   "license": "AGPL-3.0-only",
-  "keywords": ["project-management", "plane", "scrummy", "agile", "chief-of-staff"],
+  "keywords": [
+    "project-management",
+    "plane",
+    "scrummy",
+    "agile",
+    "chief-of-staff"
+  ],
   "skills": "./skills",
   "apps": "./.app.json",
   "interface": {
-    "displayName": "Scrummy",
-    "shortDescription": "Chief of staff for your work board",
-    "longDescription": "Reads and writes your Scrummy workspace the way an operator would: turns a brain dump into board state, recommends what to work on next with its context loaded, briefs a team or a client at the right altitude, and works backwards from a deadline to the last day work can safely start. Signing in is OAuth, and you choose which workspaces it may reach.",
+    "displayName": "Scrummy for Chat",
+    "shortDescription": "Chief of staff for your work board, in Chat",
+    "longDescription": "The Chat build of Scrummy, for ChatGPT on web, desktop and mobile. Reads and writes your work board the way an operator would: turns a brain dump into board state, recommends what to work on next with its context loaded, briefs a team or a client at the right altitude, and works backwards from a deadline to the last day work can safely start. Signing in is OAuth, and you choose which workspaces it may reach. Working in Work mode, the Codex CLI or the IDE extension instead? Install Scrummy for Codex.",
     "developerName": "Scrummy",
     "category": "Productivity",
-    "capabilities": ["Write"],
+    "capabilities": [
+      "Write"
+    ],
     "websiteURL": "https://github.com/frty2-ai/scrummy-skill",
     "brandColor": "#3F76FF",
     "composerIcon": "./assets/composer-icon.svg",
